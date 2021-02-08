@@ -43,11 +43,14 @@ const fetchResults = async (inputValue) => {
 const displayMeals = (meal) => {
   const html = ` 
     <div data-id=${meal.idMeal} class="card pb-3 cursor">
-      <img
-        src=${meal.strMealThumb}
-        class="card-img-top extra"
-        alt="meal"
-      />
+    <div class="extra-wrapper">
+    <img
+    src=${meal.strMealThumb}
+    class="card-img-top extra"
+    alt="meal"
+  />
+    </div>
+     
       <div class="card-body">
         <h5 class="card-title">${meal.strMeal}</h5>
       </div>
