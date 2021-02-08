@@ -1,10 +1,12 @@
 const form = document.getElementById('form');
 
+const searchBar = document.querySelector('.search-bar');
+
 const searchInput = document.getElementById('searchInput');
 
 const btn = document.getElementById('form-btn');
 
-const recipeContainer = document.getElementById('recipes');
+const recipeContainer = document.querySelector('.recipes');
 
 const singleRecipe = document.querySelector('.single-recipe');
 
@@ -23,6 +25,8 @@ const message = document.querySelector('.message');
 const warningImage = document.querySelector('.warning-image');
 
 const initialImage = document.querySelector('.initial');
+
+const back = document.getElementById('back');
 
 /**
  * @name fetchResults - fetch meals from api
@@ -43,13 +47,13 @@ const fetchResults = async (inputValue) => {
 const displayMeals = (meal) => {
   const html = ` 
     <div data-id=${meal.idMeal} class="card pb-3 cursor">
-    <div class="extra-wrapper">
-    <img
-    src=${meal.strMealThumb}
-    class="card-img-top extra"
-    alt="meal"
-  />
-    </div>
+      <div class="extra-wrapper">
+      <img
+      src=${meal.strMealThumb}
+      class="card-img-top extra"
+      alt="meal"
+    />
+      </div>
      
       <div class="card-body">
         <h5 class="card-title">${meal.strMeal}</h5>
@@ -75,6 +79,8 @@ const getMealDetail = async (id) => {
  * @param {Object} meal
  */
 const displayDetail = async (meal) => {
+  back.innerText = 'Back';
+  back.style.cursor = 'pointer';
   singleRecipe.classList.remove('hidden');
   singleRecipeImage.src = meal.strMealThumb;
   singleRecipeName.innerText = meal.strMeal;
@@ -85,6 +91,18 @@ const displayDetail = async (meal) => {
     ingredientsList.insertAdjacentHTML('beforeend', html);
   });
 };
+
+const updateUI = async (singleMeal) => {
+  searchBar.classList.add('hidden');
+  recipeContainer.classList.add('hidden');
+  displayDetail(singleMeal);
+};
+
+back.addEventListener('click', () => {
+  singleRecipe.classList.add('hidden');
+  recipeContainer.classList.remove('hidden');
+  searchBar.classList.remove('hidden');
+});
 
 // event handlers
 searchInput.addEventListener('input', (e) => {
@@ -179,7 +197,8 @@ form.addEventListener('submit', async (e) => {
         ingredients: filteredIngredients,
       };
 
-      displayDetail(updatedSingleMeal);
+      // displayDetail(updatedSingleMeal);
+      updateUI(updatedSingleMeal);
     });
   });
 });
